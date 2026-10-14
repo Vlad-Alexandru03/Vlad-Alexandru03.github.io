@@ -23,7 +23,7 @@ npm run build
 npm run preview
 ```
 
-The production homepage is rendered to HTML at build time so the main portfolio remains readable without JavaScript. React adds discipline selection, share links, and project dialogs. Styling uses CSS; interface icons are from Lucide. DM Sans and IBM Plex Mono are served locally through Fontsource, with system fallbacks.
+The production homepage is rendered to HTML at build time so the main portfolio remains readable without JavaScript. React adds discipline selection, share links, and project dialogs. Styling uses CSS, system fonts, and a supplied portrait; interface icons are from Lucide.
 
 ## Tailor the site without duplicating it
 
@@ -36,7 +36,7 @@ Built-in views:
 - Robotics: `?focus=robotics`.
 - Software: `?focus=software`.
 
-Each profile sets a two-line headline, introduction, project order, and skill-group order. Projects can be omitted from a profile by removing their IDs from its order. Their underlying descriptions, education, and experience are shared.
+Each profile sets a two-part role summary beneath the name, an introduction, project order, and skill-group order. Projects can be omitted from a profile by removing their IDs from its order. The name, portrait, underlying project descriptions, education, and experience are shared.
 
 For a specific application, clone a relevant profile:
 
@@ -77,7 +77,7 @@ If adding a custom domain later, change the workflow to use `BASE_PATH=/` and co
 ```text
 src/
   App.tsx                      Page sections and interactions
-  components/EngineeringVisual.tsx  Conceptual SVG illustrations
+  components/BrandIcons.tsx     Profile link icons
   content/portfolio.ts         Shared, factual content
   content/profiles.json        Application views
   profiles.ts                 Profile selection and validation
@@ -94,8 +94,8 @@ scripts/
 - The original CV remains private and is not included or linked. Public contact is email only; no phone number is displayed.
 - Project descriptions are grounded in the supplied CV. The edge-computing repository was also reviewed. See [content sources](docs/CONTENT_SOURCES.md).
 - Research manuscripts are marked as in preparation, not published.
-- SVG diagrams are conceptual illustrations, not photographs or recorded experimental results.
-- No database, tracking analytics, cookies, accounts, or form service is required. Fonts and illustrations are served locally; loading the site does not require Google Fonts requests.
+- The owner supplied the portrait for publication. It is served locally from `public/vlad-petrariu.png`.
+- No database, tracking analytics, cookies, accounts, external font requests, or form service is required.
 - All profile definitions are part of the public build. A tailored URL is **not private**. Never put recruiter names, private job descriptions, or confidential material in profiles.
 
 ## Maintenance

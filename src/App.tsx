@@ -1,14 +1,5 @@
 import { useEffect, useRef, useState, type MouseEvent } from "react";
-import {
-  ArrowDown,
-  ArrowRight,
-  ArrowUpRight,
-  Check,
-  Copy,
-  MapPin,
-  Menu,
-  X,
-} from "lucide-react";
+import { ArrowRight, ArrowUpRight, Check, Copy, Menu, X } from "lucide-react";
 import { Github, Linkedin } from "./components/BrandIcons";
 import {
   education,
@@ -20,7 +11,6 @@ import {
   type Project,
 } from "./content/portfolio";
 import { primaryProfiles, profiles, resolveProfile } from "./profiles";
-import { EngineeringVisual } from "./components/EngineeringVisual";
 
 function ProjectDialog({
   project,
@@ -71,7 +61,6 @@ function ProjectDialog({
               <span key={tag}>{tag}</span>
             ))}
           </div>
-          <EngineeringVisual variant={project.id} />
           <h3>Context</h3>
           <p>{project.context}</p>
           <h3>The work</h3>
@@ -80,7 +69,7 @@ function ProjectDialog({
               <li key={item}>{item}</li>
             ))}
           </ul>
-          <h3>What it brought together</h3>
+          <h3>Notes</h3>
           <p>{project.learning}</p>
           {project.source && (
             <a
@@ -100,8 +89,10 @@ function ProjectDialog({
 
 export default function App({
   initialProfile = "general",
+  assetBase = "/",
 }: {
   initialProfile?: string;
+  assetBase?: string;
 }) {
   const [profileId, setProfileId] = useState(initialProfile);
   const [selectedProject, setSelectedProject] = useState<string | null>(null);
@@ -202,9 +193,6 @@ export default function App({
       <header className="site-header">
         <div className="container header-inner">
           <a className="wordmark" href="#" aria-label="Vlad Petrariu, home">
-            <span className="monogram">
-              vp<span>.</span>
-            </span>
             <span>Vlad Petrariu</span>
           </a>
           <nav
@@ -225,7 +213,7 @@ export default function App({
               href="#contact"
               onClick={() => setMenuOpen(false)}
             >
-              Let’s talk <ArrowUpRight size={15} />
+              Contact
             </a>
           </nav>
           <button
@@ -241,42 +229,38 @@ export default function App({
       <main id="main">
         <section className="hero container" aria-labelledby="hero-title">
           <div className="hero-copy">
-            <div className="eyebrow hero-eyebrow">
-              <span className="status-dot" />
-              {profile.eyebrow}
-            </div>
+            <p className="hero-kicker">{profile.eyebrow}</p>
             <h1 id="hero-title">
-              {profile.headline[0]}
+              Vlad-Alexandru
               <br />
-              <span>{profile.headline[1]}</span>
+              Petrariu
             </h1>
+            <p className="hero-role">{profile.headline.join(" · ")}</p>
             <p className="hero-description">{profile.summary}</p>
             <div className="hero-actions">
-              <a className="button button-dark" href="#work">
-                Explore my work <ArrowDown size={17} />
+              <a href="#work">
+                View projects <ArrowRight size={15} />
               </a>
-              <a className="button button-light" href="#contact">
-                Get in touch <ArrowUpRight size={17} />
+              <a href={`mailto:${person.email}`}>
+                Email me <ArrowUpRight size={15} />
               </a>
             </div>
-            <div className="hero-location">
-              <MapPin size={14} />
-              <span>{person.location}</span>
-              <span className="location-divider" />
-              <span>M.Sc. student, University of Turku</span>
-            </div>
           </div>
-          <div className="hero-figure">
-            <EngineeringVisual hero />
-            <span className="figure-note">
-              A study in balance. A conceptual control-loop illustration.
-            </span>
-          </div>
+          <figure className="hero-portrait">
+            <img
+              src={`${assetBase}vlad-petrariu.png`}
+              alt="Vlad-Alexandru Petrariu"
+              width="400"
+              height="400"
+              fetchPriority="high"
+            />
+            <figcaption>{person.location}</figcaption>
+          </figure>
         </section>
 
         <div className="container focus-container">
           <div className="focus-bar">
-            <span className="focus-label">EXPLORE BY DISCIPLINE</span>
+            <span className="focus-label">Focus</span>
             <nav className="focus-links" aria-label="Engineering discipline">
               {primaryProfiles.map((id) => (
                 <a
@@ -301,7 +285,7 @@ export default function App({
                 <Copy size={15} />
               )}
               <span>
-                {copyState === "copied" ? "Link copied" : "Copy view link"}
+                {copyState === "copied" ? "Link copied" : "Copy link"}
               </span>
             </button>
           </div>
@@ -333,72 +317,36 @@ export default function App({
         >
           <div className="section-heading">
             <div>
-              <p className="eyebrow section-index">01 / SELECTED WORK</p>
-              <h2 id="work-title">
-                Built to understand.
-                <br />
-                <span>Designed to work.</span>
-              </h2>
+              <h2 id="work-title">Projects</h2>
             </div>
-            <p className="section-aside">
-              A selection of projects across
-              <br />
-              software, systems, and control.
-            </p>
+            <p className="section-aside">Academic and personal work</p>
           </div>
-          <div className="featured-projects">
-            {orderedProjects.slice(0, 2).map((project, index) => (
-              <article className="featured-project" key={project.id}>
-                <button
-                  className="project-image-button"
-                  onClick={() => showProject(project.id)}
-                  aria-label={`Read project: ${project.title}`}
-                >
-                  <EngineeringVisual variant={project.id} />
-                  <span className="image-open">
-                    <ArrowUpRight size={20} />
-                  </span>
-                </button>
-                <div className="project-heading-line">
-                  <p className="eyebrow">{project.category}</p>
-                  <span className="project-number">0{index + 1}</span>
-                </div>
-                <h3>
-                  <button
-                    className="project-title-button"
-                    onClick={() => showProject(project.id)}
-                  >
-                    {project.title}
-                    <ArrowUpRight size={21} />
-                  </button>
-                </h3>
-                <p className="project-summary">{project.summary}</p>
-                <div className="tag-list">
-                  {project.tags.map((tag) => (
-                    <span key={tag}>{tag}</span>
-                  ))}
-                </div>
-              </article>
-            ))}
-          </div>
-          <div className="more-projects">
-            {orderedProjects.slice(2).map((project, index) => (
-              <article className="project-row" key={project.id}>
-                <span className="project-number">0{index + 3}</span>
-                <div className="row-title">
-                  <p className="eyebrow">{project.category}</p>
-                  <button onClick={() => showProject(project.id)}>
-                    {project.title}
-                  </button>
+          <div className="project-list">
+            {orderedProjects.map((project) => (
+              <article className="project-entry" key={project.id}>
+                <div className="project-entry-heading">
+                  <h3>
+                    <button onClick={() => showProject(project.id)}>
+                      {project.title}
+                    </button>
+                  </h3>
+                  <span>{project.kind}</span>
                 </div>
                 <p className="row-summary">{project.summary}</p>
-                <button
-                  className="icon-button row-open"
-                  aria-label={`Read project: ${project.title}`}
-                  onClick={() => showProject(project.id)}
-                >
-                  <ArrowUpRight size={22} />
-                </button>
+                <p className="project-tools">{project.tags.join(" · ")}</p>
+                <div className="project-links">
+                  <button
+                    onClick={() => showProject(project.id)}
+                    aria-label={`Read project: ${project.title}`}
+                  >
+                    Project notes <ArrowUpRight size={14} />
+                  </button>
+                  {project.source && (
+                    <a href={project.source} target="_blank" rel="noreferrer">
+                      Code on GitHub <ArrowUpRight size={14} />
+                    </a>
+                  )}
+                </div>
               </article>
             ))}
           </div>
@@ -420,19 +368,12 @@ export default function App({
           <div className="container section">
             <div className="section-heading">
               <div>
-                <p className="eyebrow section-index">02 / EXPERIENCE</p>
-                <h2 id="experience-title">Beyond the simulation.</h2>
+                <h2 id="experience-title">Experience</h2>
               </div>
-              <p className="section-aside">
-                Practical experience with
-                <br />
-                industrial systems and equipment.
-              </p>
             </div>
             <div className="experience-layout">
               <div className="experience-date">
                 <span className="experience-year">{experience.date}</span>
-                <span>INDUSTRY EXPERIENCE</span>
               </div>
               <article className="experience-detail">
                 <div className="experience-role">
@@ -442,7 +383,6 @@ export default function App({
                   </div>
                   <span>{experience.location}</span>
                 </div>
-                <p className="experience-summary">{experience.summary}</p>
                 <ul>
                   {experience.bullets.map((bullet) => (
                     <li key={bullet}>{bullet}</li>
@@ -466,20 +406,19 @@ export default function App({
         >
           <div className="about-layout">
             <div>
-              <p className="eyebrow section-index">03 / A LITTLE ABOUT ME</p>
-              <h2 id="about-title">
-                Curious about
-                <br />
-                <span>how things work.</span>
-              </h2>
-              <p className="about-intro">{person.introduction}</p>
+              <h2 id="about-title">Background</h2>
+              <p className="about-intro">
+                I studied Automation and Computer Science in Cluj-Napoca and am
+                now pursuing a master’s in Robotics and Autonomous Systems at
+                the University of Turku.
+              </p>
               <p className="about-text">
                 My projects connect signals, software, and hardware: tuning
                 feedback loops, reducing environmental sensor data, and
                 configuring self-hosted services.
               </p>
               <div className="language-note">
-                <span>LANGUAGES</span>
+                <span>Languages</span>
                 <p>
                   Romanian · Native
                   <br />
@@ -490,7 +429,7 @@ export default function App({
               </div>
             </div>
             <div className="education">
-              <p className="eyebrow">EDUCATION & DIRECTION</p>
+              <h3 className="subsection-title">Education</h3>
               {education.map((item) => (
                 <article key={item.degree}>
                   <span className="education-date">{item.date}</span>
@@ -515,20 +454,12 @@ export default function App({
           </div>
           <div className="research-section">
             <div>
-              <p className="eyebrow">RESEARCH IN PROGRESS</p>
-              <h3>
-                Thinking beyond
-                <br />
-                the implementation.
-              </h3>
-              <span className="research-status">
-                Manuscripts in preparation
-              </span>
+              <h3>Research</h3>
+              <p className="research-status">Manuscripts in preparation</p>
             </div>
             <div className="research-list">
-              {research.map((item, index) => (
+              {research.map((item) => (
                 <article key={item.title}>
-                  <span className="project-number">0{index + 1}</span>
                   <div>
                     <h4>{item.title}</h4>
                     <p>{item.description}</p>
@@ -546,23 +477,17 @@ export default function App({
         >
           <div className="container contact-inner">
             <div>
-              <p className="eyebrow">04 / LET’S CONNECT</p>
-              <h2 id="contact-title">
-                Have something
-                <br />
-                <span>in mind?</span>
-              </h2>
+              <h2 id="contact-title">Contact</h2>
               <p>
-                For opportunities in automation, robotics,
-                <br className="desktop-break" /> and software, get in touch.
+                You can reach me by email about roles in automation, robotics,
+                or software.
               </p>
             </div>
             <div className="contact-links">
               <a className="email-link" href={`mailto:${person.email}`}>
-                <span>Send me an email</span>
-                <ArrowUpRight size={30} />
+                <span>{person.email}</span>
+                <ArrowUpRight size={20} />
               </a>
-              <span className="email-address">{person.email}</span>
               <div className="social-links">
                 <a href={person.linkedin} target="_blank" rel="noreferrer">
                   <Linkedin size={16} /> LinkedIn <ArrowUpRight size={14} />
@@ -577,7 +502,7 @@ export default function App({
       </main>
       <footer className="container site-footer">
         <a className="footer-name" href="#">
-          Vlad-Alexandru Petrariu<span>Engineering. One system at a time.</span>
+          Vlad-Alexandru Petrariu
         </a>
         <span>Based in Turku, Finland</span>
         <a className="back-top" href="#">

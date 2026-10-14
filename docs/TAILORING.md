@@ -23,8 +23,8 @@ Use the built-in automation, robotics, and software views for most applications.
 ```json
 {
   "label": "Embedded control",
-  "eyebrow": "ROBOTICS · EMBEDDED CONTROL",
-  "headline": ["From sensing", "to stable motion."],
+  "eyebrow": "Robotics & embedded control",
+  "headline": ["Automation engineer", "Embedded control"],
   "summary": "A brief introduction grounded in your existing experience.",
   "projectOrder": ["balancing-robot", "bearguard", "water-control"],
   "skillOrder": ["robotics", "controls", "software"]

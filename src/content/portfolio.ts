@@ -60,7 +60,7 @@ export interface Project {
 export const projects: Project[] = [
   {
     id: "balancing-robot",
-    title: "Finding balance through feedback.",
+    title: "Self-balancing robot",
     category: "ROBOTICS / CONTROL",
     kind: "Hardware project",
     summary:
@@ -78,7 +78,7 @@ export const projects: Project[] = [
   },
   {
     id: "edge-fog",
-    title: "Less data. More useful information.",
+    title: "Environmental sensor data reduction",
     category: "EDGE COMPUTING / RESEARCH",
     kind: "Research implementation",
     summary:
@@ -97,7 +97,7 @@ export const projects: Project[] = [
   },
   {
     id: "bearguard",
-    title: "BearGuard",
+    title: "BearGuard: wildlife detection",
     category: "EMBEDDED SYSTEMS",
     kind: "Prototype",
     summary:
@@ -115,7 +115,7 @@ export const projects: Project[] = [
   },
   {
     id: "water-control",
-    title: "Water level, under control.",
+    title: "Water-tank level control",
     category: "MODELING / SIMULATION",
     kind: "Simulation project",
     summary:
@@ -133,7 +133,7 @@ export const projects: Project[] = [
   },
   {
     id: "home-automation",
-    title: "A connected home, self-hosted.",
+    title: "Self-hosted home automation",
     category: "SOFTWARE / INFRASTRUCTURE",
     kind: "Personal infrastructure",
     summary:
