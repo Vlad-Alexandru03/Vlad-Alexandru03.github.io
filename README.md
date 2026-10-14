@@ -1,6 +1,6 @@
 # Vlad Petrariu · Engineering portfolio
 
-A minimal engineering portfolio built with **React, TypeScript, and Vite**. It presents work in automation, robotics, embedded systems, and software, with shareable views for different applications.
+A minimal engineering portfolio built with **React, TypeScript, and Vite**. It presents work in automation, robotics, embedded systems, and software, with dedicated pages for different applications.
 
 [Portfolio](https://vlad-alexandru03.github.io/) · [Tailoring guide](docs/TAILORING.md) · [Deployment workflow](.github/workflows/deploy.yml)
 
@@ -23,7 +23,7 @@ npm run build
 npm run preview
 ```
 
-The production homepage is rendered to HTML at build time so the main portfolio remains readable without JavaScript. React adds discipline selection, share links, and project dialogs. Styling uses CSS, system fonts, and a supplied portrait; interface icons are from Lucide.
+Every portfolio page is rendered to HTML at build time with its own introduction, project order, page title, description, and canonical URL. React adds project dialogs and mobile navigation. Styling uses CSS, system fonts, and a supplied portrait; interface icons are from Lucide.
 
 ## Tailor the site without duplicating it
 
@@ -32,9 +32,11 @@ One source of professional facts lives in [`src/content/portfolio.ts`](src/conte
 Built-in views:
 
 - Default: the site root.
-- Automation: `?focus=automation`.
-- Robotics: `?focus=robotics`.
-- Software: `?focus=software`.
+- [Automation](https://vlad-alexandru03.github.io/automation/).
+- [Robotics](https://vlad-alexandru03.github.io/robotics/).
+- [Software](https://vlad-alexandru03.github.io/software/).
+
+Each page's navigation stays within its own sections. There is no domain switcher or navigation to the other versions. The previous `?focus=...` application links continue to work. A dedicated path always determines its domain, even if a conflicting query parameter is appended.
 
 Each profile sets a two-part role summary beneath the name, an introduction, project order, and skill-group order. Projects can be omitted from a profile by removing their IDs from its order. The name, portrait, underlying project descriptions, education, and experience are shared.
 
@@ -44,7 +46,7 @@ For a specific application, clone a relevant profile:
 npm run tailor -- --id marine-automation --from automation --label "Marine automation"
 ```
 
-Then edit the new profile in `src/content/profiles.json`, run `npm run check`, review locally at `?profile=marine-automation`, and deploy. Share the live URL ending in that same query. Changes to this file require a rebuild and deployment; the tailoring command does not publish anything itself.
+Then edit the new profile in `src/content/profiles.json`, run `npm run check` and `npm run build`, and preview locally at `/marine-automation/`. Deploy and share that path on the live site. Previous `?profile=marine-automation` links are also supported. Changes to this file require a rebuild and deployment; the tailoring command does not publish anything itself.
 
 See [the tailoring guide](docs/TAILORING.md) for the recommended routine and alternative approaches.
 

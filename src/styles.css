@@ -159,65 +159,6 @@ h1 {
   font-size: 12px;
   color: var(--muted);
 }
-.focus-bar {
-  display: flex;
-  align-items: center;
-  gap: 24px;
-  border-block: 1px solid var(--line);
-  padding-block: 14px;
-}
-.focus-label {
-  font-size: 12px;
-  color: var(--muted);
-  margin-right: 3px;
-}
-.focus-links {
-  display: flex;
-  gap: 25px;
-  align-items: center;
-}
-.focus-links a {
-  font-size: 12px;
-  padding-block: 6px;
-  border-bottom: 1px solid transparent;
-}
-.focus-links a.active {
-  color: var(--ink);
-  font-weight: 600;
-  border-bottom-color: var(--accent);
-}
-.share-button {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  margin-left: auto;
-  font-size: 11px;
-  color: var(--muted);
-  padding: 7px 0;
-}
-.share-button svg {
-  width: 13px;
-  height: 13px;
-}
-.share-fallback {
-  display: flex;
-  gap: 12px;
-  font-size: 13px;
-  align-items: center;
-  margin-top: 16px;
-}
-.share-fallback input {
-  padding: 8px;
-  flex: 1;
-  min-width: 0;
-  border: 1px solid var(--line);
-  background: white;
-}
-.custom-profile-label {
-  font-size: 12px;
-  color: var(--muted);
-  margin-top: 12px;
-}
 .section {
   padding-block: 58px;
 }
@@ -658,9 +599,6 @@ h2 {
   .hero-description {
     font-size: 14px;
   }
-  .focus-links {
-    gap: 19px;
-  }
   .experience-role {
     flex-direction: column;
     gap: 7px;
@@ -705,19 +643,6 @@ h2 {
   }
   .hero-description {
     font-size: 13px;
-  }
-  .focus-bar {
-    gap: 15px;
-    flex-wrap: wrap;
-  }
-  .focus-links {
-    gap: 19px;
-  }
-  .focus-links a {
-    font-size: 11px;
-  }
-  .share-button {
-    font-size: 10px;
   }
   .section {
     padding-block: 42px;
@@ -836,26 +761,6 @@ h2 {
   .hero-portrait figcaption {
     margin-top: 9px;
   }
-  .focus-bar {
-    gap: 10px 15px;
-    padding-block: 12px;
-  }
-  .focus-label {
-    flex-basis: 100%;
-    font-size: 11px;
-  }
-  .focus-links {
-    gap: 20px;
-    flex-wrap: wrap;
-  }
-  .focus-links a {
-    font-size: 11px;
-  }
-  .share-button {
-    margin-left: 0;
-    flex-basis: 100%;
-    justify-content: flex-start;
-  }
   .section-heading {
     align-items: start;
     flex-direction: column;
@@ -972,7 +877,6 @@ h2 {
     width: 100%;
   }
   .site-header,
-  .focus-container,
   .hero-actions,
   .project-links,
   .project-dialog,

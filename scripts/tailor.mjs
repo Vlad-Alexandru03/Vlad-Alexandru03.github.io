@@ -28,5 +28,5 @@ console.log(
   `Created ${id} from ${from}. Edit its introduction and project order in src/content/profiles.json.`,
 );
 console.log(
-  `After rebuilding and deploying, share your site URL with ?profile=${id}`,
+  `After rebuilding and deploying, share your site URL followed by /${id}/`,
 );

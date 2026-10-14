@@ -4,7 +4,13 @@
 
 The site has one record of your projects and background. Profiles change **presentation and emphasis**: the introduction, which projects appear first, which projects appear at all, and the order of skill groups. They do not silently rewrite dates, qualifications, or contributions.
 
-Use the built-in automation, robotics, and software views for most applications. Click **Copy view link** on the chosen view and paste that URL into the application. Each link opens the requested profile independently, so a previous visitor's choice does not affect another recruiter. Browser Back/Forward restores profile selection.
+Use one of these dedicated links in an application:
+
+- Robotics: `https://vlad-alexandru03.github.io/robotics/`
+- Automation: `https://vlad-alexandru03.github.io/automation/`
+- Software: `https://vlad-alexandru03.github.io/software/`
+
+Each page opens with its domain-specific introduction and project order. Visitors navigate between that page's projects, experience, background, and contact sections. There is no domain selector or link to the other versions. The broader experience stays in the shared background and project descriptions.
 
 ## Five-minute tailoring routine
 
@@ -33,7 +39,9 @@ Use the built-in automation, robotics, and software views for most applications.
 
 This is a schema example; replace its illustrative summary before publishing. Available project IDs are `balancing-robot`, `edge-fog`, `bearguard`, `water-control`, and `home-automation`. Shared project descriptions and skill lists are in `src/content/portfolio.ts`.
 
-After creating an ID such as `embedded-control`, use `?profile=embedded-control`. Invalid or unknown IDs safely display the general portfolio. Custom application profiles are accessible by direct link but are not added to the public discipline navigation automatically.
+After creating an ID such as `embedded-control`, build the site and use `/embedded-control/`. The build produces a complete HTML page for every profile, with the correct content and metadata already present before JavaScript loads. Navigation stays within that page.
+
+Previous `?profile=embedded-control` and `?focus=robotics` links remain supported on the root page. Invalid query IDs display the general portfolio. A dedicated path takes precedence over query parameters, so `/robotics/?focus=software` still displays the robotics page.
 
 Keep older application profile IDs working while applications are active. A URL is not an immutable snapshot: if you change shared content, older profile links also reflect the new facts. If an exact historical version matters, retain the deployment commit or a private screenshot in your application records. Separate deployment snapshots add more complexity and are not necessary for most applications.
 

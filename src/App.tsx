@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState, type MouseEvent } from "react";
-import { ArrowRight, ArrowUpRight, Check, Copy, Menu, X } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { ArrowRight, ArrowUpRight, Menu, X } from "lucide-react";
 import { Github, Linkedin } from "./components/BrandIcons";
 import {
   education,
@@ -10,7 +10,7 @@ import {
   skills,
   type Project,
 } from "./content/portfolio";
-import { primaryProfiles, profiles, resolveProfile } from "./profiles";
+import { profiles, resolveProfile } from "./profiles";
 
 function ProjectDialog({
   project,
@@ -97,10 +97,6 @@ export default function App({
   const [profileId, setProfileId] = useState(initialProfile);
   const [selectedProject, setSelectedProject] = useState<string | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [copyState, setCopyState] = useState<"idle" | "copied" | "fallback">(
-    "idle",
-  );
-  const [shareUrl, setShareUrl] = useState("");
   const profile = profiles[profileId] ?? profiles.general;
   const orderedProjects = profile.projectOrder.map((id) =>
     projects.find((project) => project.id === id)!,
@@ -111,7 +107,13 @@ export default function App({
 
   useEffect(() => {
     const sync = () => {
-      setProfileId(resolveProfile(window.location.search));
+      setProfileId(
+        resolveProfile(
+          window.location.search,
+          window.location.pathname,
+          assetBase,
+        ),
+      );
       const projectId = new URLSearchParams(window.location.search).get(
         "project",
       );
@@ -122,7 +124,7 @@ export default function App({
     sync();
     window.addEventListener("popstate", sync);
     return () => window.removeEventListener("popstate", sync);
-  }, []);
+  }, [assetBase]);
 
   useEffect(() => {
     document.title = `Vlad Petrariu | ${profileId === "general" ? "Automation, Robotics & Software" : profile.label}`;
@@ -130,32 +132,6 @@ export default function App({
       .querySelector('meta[name="description"]')
       ?.setAttribute("content", `${person.name}. ${profile.summary}`);
   }, [profile, profileId]);
-
-  useEffect(() => {
-    if (copyState !== "copied") return;
-    const timeout = window.setTimeout(() => setCopyState("idle"), 2500);
-    return () => window.clearTimeout(timeout);
-  }, [copyState]);
-
-  function changeProfile(event: MouseEvent<HTMLAnchorElement>, id: string) {
-    if (
-      event.ctrlKey ||
-      event.metaKey ||
-      event.shiftKey ||
-      event.altKey ||
-      event.button !== 0
-    )
-      return;
-    event.preventDefault();
-    const url = new URL(window.location.href);
-    url.searchParams.delete("profile");
-    url.searchParams.delete("project");
-    if (id === "general") url.searchParams.delete("focus");
-    else url.searchParams.set("focus", id);
-    window.history.pushState({}, "", url);
-    setProfileId(id);
-    setCopyState("idle");
-  }
 
   function showProject(id: string) {
     const url = new URL(window.location.href);
@@ -170,19 +146,6 @@ export default function App({
     url.searchParams.delete("project");
     window.history.replaceState({}, "", url);
     setSelectedProject(null);
-  }
-
-  async function copyLink() {
-    const url = new URL(window.location.href);
-    url.hash = "";
-    url.searchParams.delete("project");
-    setShareUrl(url.href);
-    try {
-      await navigator.clipboard.writeText(url.href);
-      setCopyState("copied");
-    } catch {
-      setCopyState("fallback");
-    }
   }
 
   return (
@@ -258,58 +221,6 @@ export default function App({
           </figure>
         </section>
 
-        <div className="container focus-container">
-          <div className="focus-bar">
-            <span className="focus-label">Focus</span>
-            <nav className="focus-links" aria-label="Engineering discipline">
-              {primaryProfiles.map((id) => (
-                <a
-                  key={id}
-                  href={id === "general" ? "?" : `?focus=${id}`}
-                  aria-current={profileId === id ? "page" : undefined}
-                  className={profileId === id ? "active" : ""}
-                  onClick={(event) => changeProfile(event, id)}
-                >
-                  {profiles[id].label}
-                </a>
-              ))}
-            </nav>
-            <button
-              className="share-button"
-              onClick={copyLink}
-              aria-label="Copy link to this portfolio view"
-            >
-              {copyState === "copied" ? (
-                <Check size={15} />
-              ) : (
-                <Copy size={15} />
-              )}
-              <span>
-                {copyState === "copied" ? "Link copied" : "Copy link"}
-              </span>
-            </button>
-          </div>
-          <div aria-live="polite" className="sr-only">
-            Showing {profile.label.toLowerCase()} portfolio view.
-          </div>
-          {copyState === "fallback" && (
-            <label className="share-fallback">
-              Copy this link:
-              <input
-                readOnly
-                value={shareUrl}
-                onFocus={(event) => event.target.select()}
-                autoFocus
-              />
-            </label>
-          )}
-          {!primaryProfiles.includes(profileId) && (
-            <p className="custom-profile-label">
-              Selected focus: {profile.label}
-            </p>
-          )}
-        </div>
-
         <section
           id="work"
           className="section container"
@@ -317,7 +228,11 @@ export default function App({
         >
           <div className="section-heading">
             <div>
-              <h2 id="work-title">Projects</h2>
+              <h2 id="work-title">
+                {profileId === "general"
+                  ? "Projects"
+                  : `${profile.label} portfolio`}
+              </h2>
             </div>
             <p className="section-aside">Academic and personal work</p>
           </div>
@@ -479,8 +394,9 @@ export default function App({
             <div>
               <h2 id="contact-title">Contact</h2>
               <p>
-                You can reach me by email about roles in automation, robotics,
-                or software.
+                {profileId === "general"
+                  ? "You can reach me by email about roles in automation, robotics, or software."
+                  : `You can reach me by email about opportunities in ${profile.label.toLowerCase()}.`}
               </p>
             </div>
             <div className="contact-links">

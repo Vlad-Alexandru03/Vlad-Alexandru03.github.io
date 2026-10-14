@@ -15,14 +15,21 @@ export interface Profile {
   skillOrder: SkillId[];
 }
 export const profiles = profileData as Record<string, Profile>;
-export const primaryProfiles = [
-  "general",
-  "automation",
-  "robotics",
-  "software",
-];
-
-export function resolveProfile(search: string): string {
+export function resolveProfile(
+  search: string,
+  pathname = "/",
+  basePath = "/",
+): string {
+  const base = basePath.endsWith("/") ? basePath : `${basePath}/`;
+  const route = (
+    pathname.startsWith(base)
+      ? pathname.slice(base.length)
+      : pathname.replace(/^\/+/, "")
+  )
+    .replace(/(?:^|\/)index\.html$/, "")
+    .replace(/^\/+|\/+$/g, "");
+  // A dedicated page keeps its identity even if an old query link is appended.
+  if (route && Object.hasOwn(profiles, route)) return route;
   const params = new URLSearchParams(search);
   const id = params.get("profile") ?? params.get("focus") ?? "general";
   return Object.hasOwn(profiles, id) ? id : "general";
