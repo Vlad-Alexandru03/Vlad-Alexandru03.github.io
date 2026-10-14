@@ -1,7 +1,7 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { renderToStaticMarkup } from "react-dom/server";
 import App from "../src/App";
-import { profiles } from "../src/profiles";
+import { profiles, profilePath } from "../src/profiles";
 import { person } from "../src/content/portfolio";
 
 const template = await readFile("dist/index.html", "utf8");
@@ -14,9 +14,10 @@ const escapeHtml = (value: string) =>
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;");
 const urls: string[] = [];
+const applicationLinks: string[] = [];
 
 for (const [id, profile] of Object.entries(profiles)) {
-  const route = id === "general" ? "" : `${id}/`;
+  const route = id === "general" ? "" : `${profile.slug}/`;
   const title = `Vlad Petrariu | ${id === "general" ? "Automation, Robotics & Software" : profile.label}`;
   const description = `${person.name}. ${profile.summary}`;
   const markup = renderToStaticMarkup(
@@ -39,6 +40,15 @@ for (const [id, profile] of Object.entries(profiles)) {
       /(<meta\s+property="og:description"\s+content=")[^"]*("\s*\/?>)/,
       `$1${escapeHtml(description)}$2`,
     );
+  if (id !== "general") {
+    html = html.replace(
+      "</head>",
+      '<meta name="robots" content="noindex, follow" /></head>',
+    );
+    applicationLinks.push(
+      `- ${profile.label}: ${site ? new URL(route, site).href : profilePath(id, assetBase)}`,
+    );
+  }
   if (site) {
     const canonical = new URL(route, site).href;
     const social = new URL(
@@ -53,11 +63,21 @@ for (const [id, profile] of Object.entries(profiles)) {
       "</head>",
       `<link rel="canonical" href="${escapeHtml(canonical)}" /><meta property="og:url" content="${escapeHtml(canonical)}" /></head>`,
     );
-    urls.push(canonical);
+    if (id === "general") urls.push(canonical);
   }
   await mkdir(`dist/${route}`, { recursive: true });
   await writeFile(`dist/${route}index.html`, html);
+  // Preserve links already sent in applications. JavaScript replaces the address.
+  if (id !== "general") {
+    await mkdir(`dist/${id}`, { recursive: true });
+    await writeFile(`dist/${id}/index.html`, html);
+  }
 }
+
+await writeFile(
+  "APPLICATION_LINKS.local.md",
+  `# Application links\n\nOwner reference; excluded from Git and the published site. Keep these addresses stable when updating content.\n\n${applicationLinks.join("\n")}\n`,
+);
 
 await writeFile("dist/.nojekyll", "");
 const home = site?.href || assetBase;

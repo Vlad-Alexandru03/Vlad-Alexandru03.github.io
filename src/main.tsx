@@ -1,20 +1,27 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App";
-import { resolveProfile } from "./profiles";
+import { profileLocation, resolveProfile } from "./profiles";
 import "./styles.css";
 
-// Build-time HTML keeps the portfolio readable without JavaScript. Mount with
-// the dedicated page profile; previous query links remain supported.
+const initialProfile = resolveProfile(
+  window.location.search,
+  window.location.pathname,
+  import.meta.env.BASE_URL,
+);
+const location = profileLocation(
+  new URL(window.location.href),
+  import.meta.env.BASE_URL,
+);
+if (
+  location !==
+  `${window.location.pathname}${window.location.search}${window.location.hash}`
+)
+  window.history.replaceState(window.history.state, "", location);
+
+// Older application links keep their content and adopt the neutral address.
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <App
-      initialProfile={resolveProfile(
-        window.location.search,
-        window.location.pathname,
-        import.meta.env.BASE_URL,
-      )}
-      assetBase={import.meta.env.BASE_URL}
-    />
+    <App initialProfile={initialProfile} assetBase={import.meta.env.BASE_URL} />
   </StrictMode>,
 );

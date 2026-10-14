@@ -4,11 +4,7 @@
 
 The site has one record of your projects and background. Profiles change **presentation and emphasis**: the introduction, which projects appear first, which projects appear at all, and the order of skill groups. They do not silently rewrite dates, qualifications, or contributions.
 
-Use one of these dedicated links in an application:
-
-- Robotics: `https://vlad-alexandru03.github.io/robotics/`
-- Automation: `https://vlad-alexandru03.github.io/automation/`
-- Software: `https://vlad-alexandru03.github.io/software/`
+After building, find the appropriate application address in `APPLICATION_LINKS.local.md`. This owner reference is ignored by Git and excluded from the deployed website. Public paths are neutral identifiers rather than domain names. Keep each profile's `slug` stable so previously sent links continue to work.
 
 Each page opens with its domain-specific introduction and project order. Visitors navigate between that page's projects, experience, background, and contact sections. There is no domain selector or link to the other versions. The broader experience stays in the shared background and project descriptions.
 
@@ -16,7 +12,7 @@ Each page opens with its domain-specific introduction and project order. Visitor
 
 1. Identify the two or three strongest requirements in the job description.
 2. Pick the closest existing profile. Reuse it when it already fits.
-3. For a significant difference, clone it with `npm run tailor` and give it a neutral ID such as `embedded-control` or `marine-automation`.
+3. For a significant difference, clone it with `npm run tailor` and give it a descriptive internal ID such as `embedded-control` or `marine-automation`. The command generates a separate neutral public path.
 4. Edit the new introduction and project order using only supported experience. Put the most relevant evidence first; do not claim skills simply because they appear in a job description.
 5. Run `npm run check` and `npm run build`, then review the profile on desktop and mobile.
 6. Push and wait for a successful GitHub Pages deployment. Open the live link before putting it in an application.
@@ -28,6 +24,7 @@ Each page opens with its domain-specific introduction and project order. Visitor
 
 ```json
 {
+  "slug": "a1b2c3d4e5",
   "label": "Embedded control",
   "eyebrow": "Robotics & embedded control",
   "headline": ["Automation engineer", "Embedded control"],
@@ -39,9 +36,9 @@ Each page opens with its domain-specific introduction and project order. Visitor
 
 This is a schema example; replace its illustrative summary before publishing. Available project IDs are `balancing-robot`, `edge-fog`, `bearguard`, `water-control`, and `home-automation`. Shared project descriptions and skill lists are in `src/content/portfolio.ts`.
 
-After creating an ID such as `embedded-control`, build the site and use `/embedded-control/`. The build produces a complete HTML page for every profile, with the correct content and metadata already present before JavaScript loads. Navigation stays within that page.
+After creating a profile, build the site and use its generated neutral path. The build produces a complete HTML page for every profile, with the correct content and metadata already present before JavaScript loads. Navigation stays within that page. Application pages include `noindex, follow` metadata and are omitted from the sitemap; search engines control whether and when they honor that request.
 
-Previous `?profile=embedded-control` and `?focus=robotics` links remain supported on the root page. Invalid query IDs display the general portfolio. A dedicated path takes precedence over query parameters, so `/robotics/?focus=software` still displays the robotics page.
+Previous domain-named paths and profile query links remain supported. When JavaScript loads, the address changes to the neutral path while retaining project links and section anchors. Invalid query IDs display the general portfolio. A dedicated path takes precedence over query parameters.
 
 Keep older application profile IDs working while applications are active. A URL is not an immutable snapshot: if you change shared content, older profile links also reflect the new facts. If an exact historical version matters, retain the deployment commit or a private screenshot in your application records. Separate deployment snapshots add more complexity and are not necessary for most applications.
 

@@ -5,6 +5,7 @@ tmp/
 .env.*
 !.env.example
 *.local
+*.local.md
 .DS_Store
 *.pdf
 playwright-report/

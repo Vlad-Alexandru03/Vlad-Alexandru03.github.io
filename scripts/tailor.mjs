@@ -1,4 +1,5 @@
 import { readFile, writeFile } from "node:fs/promises";
+import { randomBytes } from "node:crypto";
 
 const args = process.argv.slice(2);
 const option = (name) => {
@@ -22,11 +23,18 @@ if (Object.hasOwn(profiles, id))
   throw new Error(
     `Profile ${id} already exists. Edit it in src/content/profiles.json.`,
   );
-profiles[id] = { ...structuredClone(profiles[from]), label };
+let slug;
+do {
+  slug = randomBytes(5).toString("hex");
+} while (
+  Object.values(profiles).some((profile) => profile.slug === slug) ||
+  Object.hasOwn(profiles, slug)
+);
+profiles[id] = { ...structuredClone(profiles[from]), slug, label };
 await writeFile(path, JSON.stringify(profiles, null, 2) + "\n");
 console.log(
   `Created ${id} from ${from}. Edit its introduction and project order in src/content/profiles.json.`,
 );
 console.log(
-  `After rebuilding and deploying, share your site URL followed by /${id}/`,
+  `After rebuilding and deploying, share your site URL followed by /${slug}/`,
 );

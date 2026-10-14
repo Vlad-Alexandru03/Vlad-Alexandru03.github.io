@@ -1,8 +1,8 @@
 # Vlad Petrariu · Engineering portfolio
 
-A minimal engineering portfolio built with **React, TypeScript, and Vite**. It presents work in automation, robotics, embedded systems, and software, with dedicated pages for different applications.
+A minimal engineering portfolio built with **React, TypeScript, and Vite**. It presents work in automation, robotics, embedded systems, and software.
 
-[Portfolio](https://vlad-alexandru03.github.io/) · [Tailoring guide](docs/TAILORING.md) · [Deployment workflow](.github/workflows/deploy.yml)
+[Portfolio](https://vlad-alexandru03.github.io/) · [Deployment workflow](.github/workflows/deploy.yml)
 
 ![Engineering portfolio preview](public/social-preview.png)
 
@@ -25,18 +25,11 @@ npm run preview
 
 Every portfolio page is rendered to HTML at build time with its own introduction, project order, page title, description, and canonical URL. React adds project dialogs and mobile navigation. Styling uses CSS, system fonts, and a supplied portrait; interface icons are from Lucide.
 
-## Tailor the site without duplicating it
+## Content
 
 One source of professional facts lives in [`src/content/portfolio.ts`](src/content/portfolio.ts). Profile-specific presentation lives in [`src/content/profiles.json`](src/content/profiles.json).
 
-Built-in views:
-
-- Default: the site root.
-- [Automation](https://vlad-alexandru03.github.io/automation/).
-- [Robotics](https://vlad-alexandru03.github.io/robotics/).
-- [Software](https://vlad-alexandru03.github.io/software/).
-
-Each page's navigation stays within its own sections. There is no domain switcher or navigation to the other versions. The previous `?focus=...` application links continue to work. A dedicated path always determines its domain, even if a conflicting query parameter is appended.
+Each page's navigation stays within its own sections. Application addresses use stable, neutral paths. The build writes an owner reference to `APPLICATION_LINKS.local.md`, which is excluded from Git and the published site. Only the general homepage appears in the sitemap; application pages request exclusion from search results. Earlier links remain supported and adopt their neutral address when JavaScript loads.
 
 Each profile sets a two-part role summary beneath the name, an introduction, project order, and skill-group order. Projects can be omitted from a profile by removing their IDs from its order. The name, portrait, underlying project descriptions, education, and experience are shared.
 
@@ -46,7 +39,7 @@ For a specific application, clone a relevant profile:
 npm run tailor -- --id marine-automation --from automation --label "Marine automation"
 ```
 
-Then edit the new profile in `src/content/profiles.json`, run `npm run check` and `npm run build`, and preview locally at `/marine-automation/`. Deploy and share that path on the live site. Previous `?profile=marine-automation` links are also supported. Changes to this file require a rebuild and deployment; the tailoring command does not publish anything itself.
+Then edit the new profile in `src/content/profiles.json`, run `npm run check` and `npm run build`, and preview at the generated neutral path. Deploy and use the address in `APPLICATION_LINKS.local.md`. Changes to this file require a rebuild and deployment; the tailoring command does not publish anything itself.
 
 See [the tailoring guide](docs/TAILORING.md) for the recommended routine and alternative approaches.
 

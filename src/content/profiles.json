@@ -14,6 +14,7 @@
     "skillOrder": ["controls", "robotics", "software"]
   },
   "automation": {
+    "slug": "f4816845a9",
     "label": "Automation",
     "eyebrow": "Industrial automation & control",
     "headline": ["Automation engineer", "PLC programming & control systems"],
@@ -28,6 +29,7 @@
     "skillOrder": ["controls", "robotics", "software"]
   },
   "robotics": {
+    "slug": "dcf0b455ad",
     "label": "Robotics",
     "eyebrow": "Robotics & embedded control",
     "headline": ["Automation engineer", "Robotics M.Sc. student"],
@@ -42,6 +44,7 @@
     "skillOrder": ["robotics", "controls", "software"]
   },
   "software": {
+    "slug": "36e5635248",
     "label": "Software",
     "eyebrow": "Software & edge computing",
     "headline": ["Automation engineer", "Embedded software & IoT"],

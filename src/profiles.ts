@@ -7,6 +7,7 @@ import {
 } from "./content/portfolio";
 
 export interface Profile {
+  slug?: string;
   label: string;
   eyebrow: string;
   headline: string[];
@@ -15,6 +16,21 @@ export interface Profile {
   skillOrder: SkillId[];
 }
 export const profiles = profileData as Record<string, Profile>;
+
+export function profilePath(id: string, basePath = "/"): string {
+  const base = basePath.endsWith("/") ? basePath : `${basePath}/`;
+  return id === "general" ? base : `${base}${profiles[id].slug}/`;
+}
+
+export function profileLocation(url: URL, basePath = "/"): string {
+  const id = resolveProfile(url.search, url.pathname, basePath);
+  const params = new URLSearchParams(url.search);
+  params.delete("focus");
+  params.delete("profile");
+  const query = params.toString();
+  return `${profilePath(id, basePath)}${query ? `?${query}` : ""}${url.hash}`;
+}
+
 export function resolveProfile(
   search: string,
   pathname = "/",
@@ -29,6 +45,10 @@ export function resolveProfile(
     .replace(/(?:^|\/)index\.html$/, "")
     .replace(/^\/+|\/+$/g, "");
   // A dedicated page keeps its identity even if an old query link is appended.
+  const match = Object.entries(profiles).find(
+    ([, profile]) => profile.slug === route && route !== "",
+  );
+  if (match) return match[0];
   if (route && Object.hasOwn(profiles, route)) return route;
   const params = new URLSearchParams(search);
   const id = params.get("profile") ?? params.get("focus") ?? "general";
@@ -38,9 +58,22 @@ export function resolveProfile(
 export function validateProfiles() {
   const projectIds = new Set(projects.map((project) => project.id));
   const skillIds = new Set(Object.keys(skills));
+  const slugs = new Set<string>();
   for (const [id, profile] of Object.entries(profiles)) {
     if (!/^[a-z][a-z0-9-]*$/.test(id))
       throw new Error(`Invalid profile ID: ${id}`);
+    if (id !== "general") {
+      if (
+        !profile.slug ||
+        !/^[a-f0-9]{10}$/.test(profile.slug) ||
+        slugs.has(profile.slug) ||
+        Object.hasOwn(profiles, profile.slug)
+      )
+        throw new Error(`Missing, invalid, or duplicate public path: ${id}`);
+      slugs.add(profile.slug);
+    } else if (profile.slug) {
+      throw new Error("The general portfolio must remain at the site root.");
+    }
     if (
       !profile.label ||
       !profile.eyebrow ||

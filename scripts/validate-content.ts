@@ -1,7 +1,13 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { person, projects } from "../src/content/portfolio";
-import { profiles, resolveProfile, validateProfiles } from "../src/profiles";
+import {
+  profiles,
+  profilePath,
+  profileLocation,
+  resolveProfile,
+  validateProfiles,
+} from "../src/profiles";
 
 validateProfiles();
 assert.equal(
@@ -13,6 +19,35 @@ for (const id of Object.keys(profiles)) {
   assert.equal(resolveProfile(`?focus=${id}`), id);
   assert.equal(resolveProfile(`?profile=${id}`), id);
   if (id !== "general") {
+    const path = profilePath(id);
+    assert.ok(!path.includes(id), "Public paths should not name the domain");
+    assert.equal(resolveProfile("", path), id);
+    assert.equal(resolveProfile("?focus=general", path), id);
+    assert.equal(resolveProfile("", `${path}index.html`), id);
+    assert.equal(
+      resolveProfile("", profilePath(id, "/portfolio/"), "/portfolio/"),
+      id,
+    );
+    for (const source of [
+      `/${id}/`,
+      `/?focus=${id}`,
+      `/?profile=${id}`,
+      path,
+    ]) {
+      assert.equal(
+        profileLocation(new URL(`https://example.com${source}`)),
+        path,
+      );
+    }
+    assert.equal(
+      profileLocation(
+        new URL(
+          `https://example.com/portfolio/${id}/?focus=general&project=edge-fog#work`,
+        ),
+        "/portfolio/",
+      ),
+      `${profilePath(id, "/portfolio/")}?project=edge-fog#work`,
+    );
     assert.equal(resolveProfile("", `/${id}/`), id);
     assert.equal(resolveProfile("", `/${id}/index.html`), id);
     assert.equal(resolveProfile("?focus=general", `/${id}/`), id);
@@ -25,6 +60,10 @@ assert.equal(resolveProfile("?focus=constructor"), "general");
 assert.equal(resolveProfile("?focus=robotics&profile=software"), "software");
 assert.equal(resolveProfile("?focus=software", "/robotics/"), "robotics");
 assert.equal(resolveProfile("", "/unknown/"), "general");
+assert.equal(
+  profileLocation(new URL("https://example.com/?focus=missing#contact")),
+  "/#contact",
+);
 assert.match(person.email, /^[^\s@]+@[^\s@]+\.[^\s@]+$/);
 const source = await readFile("src/content/portfolio.ts", "utf8");
 assert.ok(
