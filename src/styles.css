@@ -564,7 +564,7 @@ h2 span {
   text-align: left;
   width: 100%;
 }
-.project-title-button h3 {
+.project-title-button {
   font-size: 24px;
   font-weight: 500;
   letter-spacing: -0.7px;
@@ -1077,7 +1077,7 @@ h2 span {
     grid-template-columns: 160px 1fr;
     gap: 25px;
   }
-  .project-title-button h3 {
+  .project-title-button {
     font-size: 21px;
   }
   .hero-location {
@@ -1177,7 +1177,7 @@ h2 span {
   .drawing-caption {
     bottom: 12px;
   }
-  .project-title-button h3 {
+  .project-title-button {
     font-size: 19px;
   }
   .project-summary {
@@ -1413,7 +1413,7 @@ h2 span {
   .project-heading-line .eyebrow {
     font-size: 8px;
   }
-  .project-title-button h3 {
+  .project-title-button {
     font-size: 23px;
   }
   .project-summary {

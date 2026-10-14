@@ -363,13 +363,15 @@ export default function App({
                   <p className="eyebrow">{project.category}</p>
                   <span className="project-number">0{index + 1}</span>
                 </div>
-                <button
-                  className="project-title-button"
-                  onClick={() => showProject(project.id)}
-                >
-                  <h3>{project.title}</h3>
-                  <ArrowUpRight size={21} />
-                </button>
+                <h3>
+                  <button
+                    className="project-title-button"
+                    onClick={() => showProject(project.id)}
+                  >
+                    {project.title}
+                    <ArrowUpRight size={21} />
+                  </button>
+                </h3>
                 <p className="project-summary">{project.summary}</p>
                 <div className="tag-list">
                   {project.tags.map((tag) => (
@@ -472,10 +474,9 @@ export default function App({
               </h2>
               <p className="about-intro">{person.introduction}</p>
               <p className="about-text">
-                I like working through a system from the signal to the software
-                and back to the hardware. My projects have taken me from tuning
-                feedback loops to reducing sensor data and configuring
-                self-hosted services.
+                My projects connect signals, software, and hardware: tuning
+                feedback loops, reducing environmental sensor data, and
+                configuring self-hosted services.
               </p>
               <div className="language-note">
                 <span>LANGUAGES</span>

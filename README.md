@@ -50,7 +50,9 @@ See [the tailoring guide](docs/TAILORING.md) for the recommended routine and alt
 
 ## Publish free with GitHub Pages
 
-Recommended repository name: **Vlad-Alexandru03.github.io**. It gives a root URL at `https://Vlad-Alexandru03.github.io/` once Pages is enabled and deployment succeeds. This is a proposed address, not a claim that deployment has already happened.
+The repository is **Vlad-Alexandru03.github.io**, configured for GitHub Actions deployment to [vlad-alexandru03.github.io](https://vlad-alexandru03.github.io/). Future pushes to `main` rebuild and publish automatically.
+
+To reproduce the setup in another account:
 
 1. Create that **public** repository under `Vlad-Alexandru03`. Keep private CVs and other private files out of the source and Git history.
 2. Push this project to its `main` branch.

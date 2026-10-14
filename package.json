@@ -6,7 +6,7 @@
   "description": "A focused engineering portfolio for Vlad-Alexandru Petrariu.",
   "scripts": {
     "dev": "vite --host 127.0.0.1",
-    "build": "tsc --noEmit && vite build && tsx scripts/prerender.tsx",
+    "build": "npm run check && vite build && tsx scripts/prerender.tsx",
     "preview": "vite preview --host 127.0.0.1",
     "check": "tsc --noEmit && tsx scripts/validate-content.ts",
     "tailor": "node scripts/tailor.mjs",
