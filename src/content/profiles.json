@@ -1,0 +1,58 @@
+{
+  "general": {
+    "label": "All engineering",
+    "eyebrow": "AUTOMATION · ROBOTICS · SOFTWARE",
+    "headline": ["Software meets", "the physical world."],
+    "summary": "I build and study systems that sense, decide, and act. From industrial automation to balancing robots and computing at the edge.",
+    "projectOrder": [
+      "balancing-robot",
+      "edge-fog",
+      "bearguard",
+      "water-control",
+      "home-automation"
+    ],
+    "skillOrder": ["controls", "robotics", "software"]
+  },
+  "automation": {
+    "label": "Automation",
+    "eyebrow": "INDUSTRIAL AUTOMATION · CONTROL SYSTEMS",
+    "headline": ["From control logic", "to real equipment."],
+    "summary": "Industrial automation experience with PLC-controlled production lines, TIA Portal, and robot integration. Grounded in modeling, troubleshooting, and feedback control.",
+    "projectOrder": [
+      "water-control",
+      "balancing-robot",
+      "bearguard",
+      "edge-fog",
+      "home-automation"
+    ],
+    "skillOrder": ["controls", "robotics", "software"]
+  },
+  "robotics": {
+    "label": "Robotics",
+    "eyebrow": "ROBOTICS · EMBEDDED CONTROL",
+    "headline": ["From sensing", "to stable motion."],
+    "summary": "Exploring how robots sense and respond to the physical world. My work brings together PID control, embedded programming, and system integration.",
+    "projectOrder": [
+      "balancing-robot",
+      "bearguard",
+      "water-control",
+      "edge-fog",
+      "home-automation"
+    ],
+    "skillOrder": ["robotics", "controls", "software"]
+  },
+  "software": {
+    "label": "Software",
+    "eyebrow": "SOFTWARE · EDGE COMPUTING · INFRASTRUCTURE",
+    "headline": ["Useful software.", "Connected systems."],
+    "summary": "Software work connected to sensors, devices, and infrastructure. Projects in Python, C/C++, MATLAB, and self-hosted Linux environments.",
+    "projectOrder": [
+      "edge-fog",
+      "home-automation",
+      "bearguard",
+      "balancing-robot",
+      "water-control"
+    ],
+    "skillOrder": ["software", "robotics", "controls"]
+  }
+}

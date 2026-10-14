@@ -1,0 +1,35 @@
+{
+  "name": "vlad-petrariu-portfolio",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "A focused engineering portfolio for Vlad-Alexandru Petrariu.",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "tsc --noEmit && vite build && tsx scripts/prerender.tsx",
+    "preview": "vite preview --host 127.0.0.1",
+    "check": "tsc --noEmit && tsx scripts/validate-content.ts",
+    "tailor": "node scripts/tailor.mjs",
+    "format": "prettier --write src scripts *.json *.ts *.html *.md docs .github"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "dependencies": {
+    "@fontsource-variable/dm-sans": "^5.3.0",
+    "@fontsource/ibm-plex-mono": "^5.3.0",
+    "lucide-react": "^1.57.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.5",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.2",
+    "prettier": "^3.9.10",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.4"
+  }
+}
