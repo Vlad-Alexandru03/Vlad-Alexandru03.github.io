@@ -12,11 +12,109 @@ import {
 } from "./content/portfolio";
 import { profiles, resolveProfile } from "./profiles";
 
+function ProjectFlow({ flow }: { flow: NonNullable<Project["flow"]> }) {
+  return (
+    <figure className="project-flow">
+      <figcaption>{flow.caption}</figcaption>
+      <ol>
+        {flow.steps.map((step) => (
+          <li key={step}>{step}</li>
+        ))}
+      </ol>
+      {flow.feedback && <p>{flow.feedback}</p>}
+    </figure>
+  );
+}
+
+function ProjectEntry({
+  project,
+  focus,
+  featured = false,
+  onOpen,
+}: {
+  project: Project;
+  focus?: string;
+  featured?: boolean;
+  onOpen: (id: string) => void;
+}) {
+  return (
+    <article className={`project-entry${featured ? " project-featured" : ""}`}>
+      <div className="project-entry-heading">
+        <h3>
+          <button onClick={() => onOpen(project.id)}>{project.title}</button>
+        </h3>
+        <span>{project.kind}</span>
+      </div>
+      <p className="row-summary">{focus ?? project.summary}</p>
+      <p className="project-tools">{project.tags.join(" · ")}</p>
+      {featured && project.flow && <ProjectFlow flow={project.flow} />}
+      <div className="project-links">
+        <button
+          onClick={() => onOpen(project.id)}
+          aria-label={`Read project: ${project.title}`}
+        >
+          {featured ? "Read case study" : "Project notes"}{" "}
+          <ArrowUpRight size={14} />
+        </button>
+        {project.source && (
+          <a href={project.source} target="_blank" rel="noreferrer">
+            Code & experiment setup <ArrowUpRight size={14} />
+          </a>
+        )}
+      </div>
+    </article>
+  );
+}
+
+function ExperienceSection({ lead }: { lead: string }) {
+  return (
+    <section
+      id="experience"
+      className="experience-section"
+      aria-labelledby="experience-title"
+    >
+      <div className="container section">
+        <div className="section-heading">
+          <h2 id="experience-title">Experience</h2>
+        </div>
+        <p className="section-intro">{lead}</p>
+        <div className="experience-layout">
+          <div className="experience-date">
+            <span className="experience-year">{experience.date}</span>
+          </div>
+          <article className="experience-detail">
+            <div className="experience-role">
+              <div>
+                <h3>{experience.title}</h3>
+                <p>{experience.company}</p>
+              </div>
+              <span>{experience.location}</span>
+            </div>
+            <ul>
+              {experience.bullets.map((bullet) => (
+                <li key={bullet}>{bullet}</li>
+              ))}
+            </ul>
+            <div className="tag-list">
+              <span>TIA Portal</span>
+              <span>Universal Robots</span>
+              <span>Commissioning</span>
+              <span>Troubleshooting</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function ProjectDialog({
   project,
+  focus,
   onClose,
 }: {
   project: Project | undefined;
+  focus?: string;
   onClose: () => void;
 }) {
   const dialog = useRef<HTMLDialogElement>(null);
@@ -55,22 +153,33 @@ function ProjectDialog({
           </button>
           <p className="eyebrow">{project.category}</p>
           <h2 id="project-title">{project.title}</h2>
-          <p className="dialog-summary">{project.summary}</p>
+          <p className="dialog-summary">{focus ?? project.summary}</p>
           <div className="tag-list">
             {project.tags.map((tag) => (
               <span key={tag}>{tag}</span>
             ))}
           </div>
-          <h3>Context</h3>
+          {project.flow && <ProjectFlow flow={project.flow} />}
+          <h3>The problem</h3>
           <p>{project.context}</p>
-          <h3>The work</h3>
+          <h3>My contribution</h3>
           <ul>
             {project.contributions.map((item) => (
               <li key={item}>{item}</li>
             ))}
           </ul>
-          <h3>Notes</h3>
+          <h3>Scope & learning</h3>
           <p>{project.learning}</p>
+          {project.reproduction && (
+            <details className="experiment-details">
+              <summary>Run the experiment</summary>
+              <p>{project.reproduction.requirements}</p>
+              <p>{project.reproduction.notes}</p>
+              <pre>
+                <code>{project.reproduction.command}</code>
+              </pre>
+            </details>
+          )}
           {project.source && (
             <a
               className="button button-dark"
@@ -101,9 +210,28 @@ export default function App({
   const orderedProjects = profile.projectOrder.map((id) =>
     projects.find((project) => project.id === id)!,
   );
+  const featuredProjects = profile.featuredProjects.map((id) =>
+    projects.find((project) => project.id === id)!,
+  );
+  const additionalProjects = orderedProjects.filter(
+    (project) => !profile.featuredProjects.includes(project.id),
+  );
   const activeProject = projects.find(
     (project) => project.id === selectedProject,
   );
+  const sectionLinks = profile.experienceFirst
+    ? [
+        ["experience", "Experience"],
+        ["work", "Work"],
+        ["about", "About"],
+        ["contact", "Contact"],
+      ]
+    : [
+        ["work", "Work"],
+        ["experience", "Experience"],
+        ["about", "About"],
+        ["contact", "Contact"],
+      ];
 
   useEffect(() => {
     const sync = () => {
@@ -162,22 +290,11 @@ export default function App({
             aria-label="Main navigation"
             className={menuOpen ? "nav-open" : ""}
           >
-            <a href="#work" onClick={() => setMenuOpen(false)}>
-              Work
-            </a>
-            <a href="#experience" onClick={() => setMenuOpen(false)}>
-              Experience
-            </a>
-            <a href="#about" onClick={() => setMenuOpen(false)}>
-              About
-            </a>
-            <a
-              className="nav-contact"
-              href="#contact"
-              onClick={() => setMenuOpen(false)}
-            >
-              Contact
-            </a>
+            {sectionLinks.map(([id, label]) => (
+              <a key={id} href={`#${id}`} onClick={() => setMenuOpen(false)}>
+                {label}
+              </a>
+            ))}
           </nav>
           <button
             className="menu-toggle icon-button"
@@ -201,8 +318,9 @@ export default function App({
             <p className="hero-role">{profile.headline.join(" · ")}</p>
             <p className="hero-description">{profile.summary}</p>
             <div className="hero-actions">
-              <a href="#work">
-                View projects <ArrowRight size={15} />
+              <a href={profile.experienceFirst ? "#experience" : "#work"}>
+                {profile.experienceFirst ? "View experience" : "View projects"}{" "}
+                <ArrowRight size={15} />
               </a>
               <a href={`mailto:${person.email}`}>
                 Email me <ArrowUpRight size={15} />
@@ -221,6 +339,9 @@ export default function App({
           </figure>
         </section>
 
+        {profile.experienceFirst && (
+          <ExperienceSection lead={profile.experienceLead} />
+        )}
         <section
           id="work"
           className="section container"
@@ -228,43 +349,36 @@ export default function App({
         >
           <div className="section-heading">
             <div>
-              <h2 id="work-title">
-                {profileId === "general"
-                  ? "Projects"
-                  : `${profile.label} portfolio`}
-              </h2>
+              <h2 id="work-title">Portfolio</h2>
             </div>
-            <p className="section-aside">Academic and personal work</p>
+            <p className="section-aside">Selected academic and personal work</p>
           </div>
           <div className="project-list">
-            {orderedProjects.map((project) => (
-              <article className="project-entry" key={project.id}>
-                <div className="project-entry-heading">
-                  <h3>
-                    <button onClick={() => showProject(project.id)}>
-                      {project.title}
-                    </button>
-                  </h3>
-                  <span>{project.kind}</span>
-                </div>
-                <p className="row-summary">{project.summary}</p>
-                <p className="project-tools">{project.tags.join(" · ")}</p>
-                <div className="project-links">
-                  <button
-                    onClick={() => showProject(project.id)}
-                    aria-label={`Read project: ${project.title}`}
-                  >
-                    Project notes <ArrowUpRight size={14} />
-                  </button>
-                  {project.source && (
-                    <a href={project.source} target="_blank" rel="noreferrer">
-                      Code on GitHub <ArrowUpRight size={14} />
-                    </a>
-                  )}
-                </div>
-              </article>
+            {featuredProjects.map((project) => (
+              <ProjectEntry
+                key={project.id}
+                project={project}
+                focus={profile.projectFocus[project.id]}
+                featured
+                onOpen={showProject}
+              />
             ))}
           </div>
+          {additionalProjects.length > 0 && (
+            <div className="additional-projects">
+              <h3 className="subsection-title">Additional projects</h3>
+              <div className="additional-project-list">
+                {additionalProjects.map((project) => (
+                  <ProjectEntry
+                    key={project.id}
+                    project={project}
+                    focus={profile.projectFocus[project.id]}
+                    onOpen={showProject}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
           <a
             className="text-link github-more"
             href={person.github}
@@ -275,44 +389,9 @@ export default function App({
           </a>
         </section>
 
-        <section
-          id="experience"
-          className="experience-section"
-          aria-labelledby="experience-title"
-        >
-          <div className="container section">
-            <div className="section-heading">
-              <div>
-                <h2 id="experience-title">Experience</h2>
-              </div>
-            </div>
-            <div className="experience-layout">
-              <div className="experience-date">
-                <span className="experience-year">{experience.date}</span>
-              </div>
-              <article className="experience-detail">
-                <div className="experience-role">
-                  <div>
-                    <h3>{experience.title}</h3>
-                    <p>{experience.company}</p>
-                  </div>
-                  <span>{experience.location}</span>
-                </div>
-                <ul>
-                  {experience.bullets.map((bullet) => (
-                    <li key={bullet}>{bullet}</li>
-                  ))}
-                </ul>
-                <div className="tag-list">
-                  <span>TIA Portal</span>
-                  <span>Universal Robots</span>
-                  <span>Commissioning</span>
-                  <span>Troubleshooting</span>
-                </div>
-              </article>
-            </div>
-          </div>
-        </section>
+        {!profile.experienceFirst && (
+          <ExperienceSection lead={profile.experienceLead} />
+        )}
 
         <section
           id="about"
@@ -327,11 +406,7 @@ export default function App({
                 now pursuing a master’s in Robotics and Autonomous Systems at
                 the University of Turku.
               </p>
-              <p className="about-text">
-                My projects connect signals, software, and hardware: tuning
-                feedback loops, reducing environmental sensor data, and
-                configuring self-hosted services.
-              </p>
+              <p className="about-text">{profile.background}</p>
               <div className="language-note">
                 <span>Languages</span>
                 <p>
@@ -367,11 +442,13 @@ export default function App({
               </div>
             ))}
           </div>
-          <div className="research-section">
-            <div>
-              <h3>Research</h3>
-              <p className="research-status">Manuscripts in preparation</p>
-            </div>
+          <details className="research-section">
+            <summary>
+              <span>Research</span>{" "}
+              <span className="research-status">
+                Manuscripts in preparation
+              </span>
+            </summary>
             <div className="research-list">
               {research.map((item) => (
                 <article key={item.title}>
@@ -382,7 +459,7 @@ export default function App({
                 </article>
               ))}
             </div>
-          </div>
+          </details>
         </section>
 
         <section
@@ -425,7 +502,13 @@ export default function App({
           Back to top <ArrowRight size={15} />
         </a>
       </footer>
-      <ProjectDialog project={activeProject} onClose={closeProject} />
+      <ProjectDialog
+        project={activeProject}
+        focus={
+          activeProject ? profile.projectFocus[activeProject.id] : undefined
+        }
+        onClose={closeProject}
+      />
     </>
   );
 }

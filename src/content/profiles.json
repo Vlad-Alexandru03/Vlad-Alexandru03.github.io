@@ -4,6 +4,11 @@
     "eyebrow": "Automation, robotics & software",
     "headline": ["Automation engineer", "Robotics M.Sc. student"],
     "summary": "I'm studying Robotics and Autonomous Systems at the University of Turku. My background includes industrial automation, embedded control, and research on environmental sensor data.",
+    "featuredProjects": ["balancing-robot", "edge-fog"],
+    "experienceFirst": false,
+    "experienceLead": "During my internship, I worked alongside senior engineers on production lines, PLC troubleshooting, and robot integration.",
+    "background": "My projects connect signals, software, and hardware: tuning feedback loops, reducing environmental sensor data, and configuring self-hosted services.",
+    "projectFocus": {},
     "projectOrder": [
       "balancing-robot",
       "edge-fog",
@@ -18,7 +23,15 @@
     "label": "Automation",
     "eyebrow": "Industrial automation & control",
     "headline": ["Automation engineer", "PLC programming & control systems"],
-    "summary": "During my internship at PSC Automation and Installations, I worked on PLC-controlled production lines and Universal Robots integration using TIA Portal. My academic projects include feedback control and system simulation.",
+    "summary": "I worked on PLC-controlled production lines and Universal Robots integration during my internship at PSC Automation and Installations. My project work covers feedback control, system modeling, and simulation in MATLAB / Simulink.",
+    "featuredProjects": ["water-control", "balancing-robot"],
+    "experienceFirst": true,
+    "experienceLead": "Hands-on experience with production-line commissioning, PLC troubleshooting, and Universal Robots integration using TIA Portal.",
+    "background": "My automation experience spans industrial commissioning and academic control projects. I have worked with PLC-controlled equipment and used simulation to study feedback strategies and disturbances.",
+    "projectFocus": {
+      "water-control": "Modeled a tank-level process in Simulink and explored cascade, feedforward, and model predictive control, including responses to noise and operational anomalies.",
+      "balancing-robot": "Configured and tuned PID controllers for angle stabilization and speed regulation, using IMU measurements as feedback on a physical two-wheeled robot."
+    },
     "projectOrder": [
       "water-control",
       "balancing-robot",
@@ -34,6 +47,14 @@
     "eyebrow": "Robotics & embedded control",
     "headline": ["Automation engineer", "Robotics M.Sc. student"],
     "summary": "I'm studying Robotics and Autonomous Systems in Turku. I've built a self-balancing robot using PID control and IMU feedback, and worked with embedded programming and robot integration.",
+    "featuredProjects": ["balancing-robot", "bearguard"],
+    "experienceFirst": false,
+    "experienceLead": "At PSC, I worked on integrating Universal Robots with safety components and PLCs, alongside production-line commissioning and troubleshooting.",
+    "background": "My robotics projects bring sensing, embedded programming, and physical actuation together. The balancing robot focuses on feedback control; BearGuard focuses on integrating detection, communication, and actuators on a Raspberry Pi.",
+    "projectFocus": {
+      "balancing-robot": "Built a two-wheeled robot and connected IMU processing with embedded C/C++ and PID control for balance and speed regulation.",
+      "bearguard": "Integrated thermal imaging, machine learning, and actuators on a Raspberry Pi, with GSM/GPS functionality for remote monitoring."
+    },
     "projectOrder": [
       "balancing-robot",
       "bearguard",
@@ -47,8 +68,19 @@
     "slug": "36e5635248",
     "label": "Software",
     "eyebrow": "Software & edge computing",
-    "headline": ["Automation engineer", "Embedded software & IoT"],
+    "headline": [
+      "Embedded software & IoT",
+      "Automation engineering background"
+    ],
     "summary": "My software projects include a MATLAB pipeline for sensor-data reduction, Python on Raspberry Pi, and embedded control in C/C++. I also run a personal home-automation environment using Linux and Docker.",
+    "featuredProjects": ["edge-fog", "home-automation"],
+    "experienceFirst": false,
+    "experienceLead": "My industry experience includes software configuration and PLC troubleshooting on automated production lines, where software behavior has a direct effect on physical equipment.",
+    "background": "I work with software that processes sensor data or connects to physical systems: MATLAB for research experiments, Python on Raspberry Pi, and C/C++ for embedded control. My personal infrastructure also gives me practical experience with Linux, Docker, and networking.",
+    "projectFocus": {
+      "edge-fog": "Worked with a MATLAB experiment pipeline that clusters temperature/humidity readings, classifies new samples, and compresses the label stream with Run-Length and Huffman encoding. The repository includes data, an entry script, and a second-sensor check.",
+      "home-automation": "Configured Home Assistant and containerized services in a Linux environment, with Tailscale providing VPN connectivity for the self-hosted setup."
+    },
     "projectOrder": [
       "edge-fog",
       "home-automation",

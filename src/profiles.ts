@@ -12,6 +12,11 @@ export interface Profile {
   eyebrow: string;
   headline: string[];
   summary: string;
+  featuredProjects: ProjectId[];
+  experienceFirst: boolean;
+  experienceLead: string;
+  background: string;
+  projectFocus: Partial<Record<ProjectId, string>>;
   projectOrder: ProjectId[];
   skillOrder: SkillId[];
 }
@@ -90,6 +95,29 @@ export function validateProfiles() {
     for (const project of profile.projectOrder)
       if (!projectIds.has(project))
         throw new Error(`Unknown project ${project} in ${id}`);
+    if (
+      !profile.featuredProjects.length ||
+      new Set(profile.featuredProjects).size !==
+        profile.featuredProjects.length ||
+      profile.featuredProjects.some(
+        (project) => !profile.projectOrder.includes(project),
+      )
+    )
+      throw new Error(
+        `Featured projects must be unique and included in the page: ${id}`,
+      );
+    if (
+      typeof profile.experienceFirst !== "boolean" ||
+      !profile.experienceLead.trim() ||
+      !profile.background.trim()
+    )
+      throw new Error(`Incomplete page emphasis: ${id}`);
+    for (const [project, focus] of Object.entries(profile.projectFocus))
+      if (
+        !profile.projectOrder.includes(project as ProjectId) ||
+        !focus?.trim()
+      )
+        throw new Error(`Invalid project emphasis for ${project} in ${id}`);
     if (
       !profile.skillOrder.length ||
       new Set(profile.skillOrder).size !== profile.skillOrder.length

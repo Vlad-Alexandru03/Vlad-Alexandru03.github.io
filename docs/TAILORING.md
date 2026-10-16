@@ -29,12 +29,21 @@ Each page opens with its domain-specific introduction and project order. Visitor
   "eyebrow": "Robotics & embedded control",
   "headline": ["Automation engineer", "Embedded control"],
   "summary": "A brief introduction grounded in your existing experience.",
+  "featuredProjects": ["balancing-robot", "bearguard"],
+  "experienceFirst": false,
+  "experienceLead": "A relevant introduction to your documented internship work.",
+  "background": "A relevant description of your existing technical background.",
+  "projectFocus": {
+    "balancing-robot": "Describe the relevant part of this project using supported facts."
+  },
   "projectOrder": ["balancing-robot", "bearguard", "water-control"],
   "skillOrder": ["robotics", "controls", "software"]
 }
 ```
 
 This is a schema example; replace its illustrative summary before publishing. Available project IDs are `balancing-robot`, `edge-fog`, `bearguard`, `water-control`, and `home-automation`. Shared project descriptions and skill lists are in `src/content/portfolio.ts`.
+
+Use `featuredProjects` for the two or three strongest examples. All featured IDs must also occur in `projectOrder`; the remaining projects appear in a compact supporting section. Set `experienceFirst` when industrial experience is the strongest evidence for the role. `projectFocus` replaces the short introduction in both the project listing and its case study, while retaining shared facts and contributions. Shared technical diagrams and experiment instructions live with their project in `portfolio.ts`. Keep unpublished research labeled as in preparation; it appears under an expandable Research section.
 
 After creating a profile, build the site and use its generated neutral path. The build produces a complete HTML page for every profile, with the correct content and metadata already present before JavaScript loads. Navigation stays within that page. Application pages include `noindex, follow` metadata and are omitted from the sitemap; search engines control whether and when they honor that request.
 

@@ -54,6 +54,8 @@ export interface Project {
   context: string;
   contributions: string[];
   learning: string;
+  flow?: { caption: string; steps: string[]; feedback?: string };
+  reproduction?: { requirements: string; command: string; notes: string };
   source?: string;
 }
 
@@ -75,6 +77,11 @@ export const projects: Project[] = [
     ],
     learning:
       "The project brought together embedded programming, feedback control, and hardware diagnostics.",
+    flow: {
+      caption: "Simplified feedback loop",
+      steps: ["IMU readings", "PID control", "Motor response"],
+      feedback: "Robot motion is measured again by the IMU to close the loop.",
+    },
   },
   {
     id: "edge-fog",
@@ -94,6 +101,22 @@ export const projects: Project[] = [
     learning:
       "The repository documents experimental validation. Related manuscripts are in preparation for submission; they are not presented here as published papers.",
     source: "https://github.com/Vlad-Alexandru03/edge-fog-data-reduction",
+    flow: {
+      caption: "Data-processing overview",
+      steps: [
+        "Temperature & humidity",
+        "Cluster & classify",
+        "Label stream",
+        "RLE / Huffman encoding",
+      ],
+    },
+    reproduction: {
+      requirements:
+        "MATLAB R2021a or newer, with the Statistics and Machine Learning Toolbox and the Communications Toolbox.",
+      command: "cd OurDataset_Scripts\nRunAll_OurDataset",
+      notes:
+        "First extract our_dataset.csv.gz into the repository root. Results are written to OurDataset_Scripts/Outputs_OurDataset/. Set SENSOR_ID = 2 in the entry script to run the second-sensor check. See the repository README for the full setup.",
+    },
   },
   {
     id: "bearguard",
@@ -104,7 +127,7 @@ export const projects: Project[] = [
       "A wildlife-detection prototype connecting thermal imaging, machine learning, and actuators on a Raspberry Pi.",
     tags: ["Python", "Raspberry Pi", "Thermal imaging"],
     context:
-      "A field-deployable prototype for wildlife detection, bringing sensing and a physical response into one embedded system.",
+      "A prototype for wildlife detection, bringing sensing and a physical response into one embedded system.",
     contributions: [
       "Developed a prototype integrating thermal imaging, machine learning, and actuators.",
       "Used a Raspberry Pi for embedded system integration.",

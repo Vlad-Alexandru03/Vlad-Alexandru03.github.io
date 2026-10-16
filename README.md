@@ -31,7 +31,7 @@ One source of professional facts lives in [`src/content/portfolio.ts`](src/conte
 
 Each page's navigation stays within its own sections. Application addresses use stable, neutral paths. The build writes an owner reference to `APPLICATION_LINKS.local.md`, which is excluded from Git and the published site. Only the general homepage appears in the sitemap; application pages request exclusion from search results. Earlier links remain supported and adopt their neutral address when JavaScript loads.
 
-Each profile sets a two-part role summary beneath the name, an introduction, project order, and skill-group order. Projects can be omitted from a profile by removing their IDs from its order. The name, portrait, underlying project descriptions, education, and experience are shared.
+Each profile sets a two-part role summary, introduction, featured projects, supporting project order, skill-group order, background paragraph, and experience introduction. `experienceFirst` moves industry experience ahead of the portfolio. `projectFocus` changes a project's introduction while its underlying contributions stay shared. Projects can be omitted by removing their IDs from both the order and featured list. The name, portrait, education, and factual experience are shared.
 
 For a specific application, clone a relevant profile:
 

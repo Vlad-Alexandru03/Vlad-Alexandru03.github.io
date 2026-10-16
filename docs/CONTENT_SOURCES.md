@@ -1,6 +1,6 @@
 # Content provenance
 
-Reviewed 15 October 2026.
+Reviewed 16 October 2026.
 
 - The user supplied a two-page CV privately. It supports the education, internship, projects, languages, and manuscript descriptions. The original PDF and phone number are intentionally excluded from this project.
 - [Public GitHub profile](https://github.com/Vlad-Alexandru03).
@@ -10,3 +10,5 @@ Reviewed 15 October 2026.
 The internship is presented as an internship, BearGuard as a prototype, tank control as simulation, and the home environment as personal infrastructure. Research manuscripts remain labeled as in preparation. The portrait was supplied by the owner for use on the site; the original photo is used without retouching.
 
 Editorial introductions summarize the source material. The candidate should review wording before using the site in an application.
+
+The public edge-fog README was checked again for the MATLAB version, required toolboxes, entry script, dataset extraction, output directory, and second-sensor configuration. Its instructions are reproduced in the experiment details; the experiment has not been rerun for this website update. The two technical diagrams are simplified explanations of the documented control loop and data pipeline, not measured plots or photographs of hardware. No new performance results, availability, or relocation commitments were added.

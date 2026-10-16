@@ -1,5 +1,8 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
+import { createElement } from "react";
+import { renderToStaticMarkup } from "react-dom/server";
+import App from "../src/App";
 import { person, projects } from "../src/content/portfolio";
 import {
   profiles,
@@ -16,6 +19,28 @@ assert.equal(
   "Project IDs must be unique",
 );
 for (const id of Object.keys(profiles)) {
+  const profile = profiles[id];
+  const html = renderToStaticMarkup(createElement(App, { initialProfile: id }));
+  assert.ok(
+    html.includes('<h2 id="work-title">Portfolio</h2>'),
+    "Every page must use the neutral Portfolio heading",
+  );
+  assert.equal(
+    (html.match(/class="project-entry project-featured"/g) ?? []).length,
+    profile.featuredProjects.length,
+  );
+  assert.equal(
+    html.indexOf('id="experience"') < html.indexOf('id="work"'),
+    profile.experienceFirst,
+    "Page order must reflect the profile emphasis",
+  );
+  for (const otherId of Object.keys(profiles)) {
+    if (otherId !== "general")
+      assert.ok(
+        !html.includes(`href="${profilePath(otherId)}"`),
+        "Visitor navigation must not expose other profiles",
+      );
+  }
   assert.equal(resolveProfile(`?focus=${id}`), id);
   assert.equal(resolveProfile(`?profile=${id}`), id);
   if (id !== "general") {
