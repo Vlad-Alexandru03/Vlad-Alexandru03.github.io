@@ -4,6 +4,7 @@ import { Github, Linkedin } from "./components/BrandIcons";
 import {
   education,
   experience,
+  hackathonAward,
   person,
   projects,
   research,
@@ -415,6 +416,14 @@ export default function App({
                   English · IELTS Academic 7.5
                   <br />
                   Finnish · Beginner, currently studying
+                </p>
+              </div>
+              <div className="language-note">
+                <span>Awards</span>
+                <p>
+                  <a href={hackathonAward.url}>{hackathonAward.event}</a>
+                  <br />
+                  {hackathonAward.detail}
                 </p>
               </div>
             </div>

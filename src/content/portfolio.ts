@@ -9,6 +9,12 @@ export const person = {
     "I'm Vlad, an automation engineer pursuing an M.Sc. in Robotics and Autonomous Systems at the University of Turku. My work connects control systems, embedded software, and physical equipment.",
 };
 
+export const hackathonAward = {
+  event: "Since AI Hackathon 2026",
+  detail: "My team took third place in the Traficom Challenge with IFIC Guard.",
+  url: "https://sinceai.ai/hackathon",
+};
+
 export const skills = {
   controls: {
     name: "Control & automation",

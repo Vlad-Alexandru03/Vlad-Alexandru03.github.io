@@ -2,6 +2,8 @@
 
 Reviewed 16 October 2026.
 
+The candidate confirmed third place in the Traficom Challenge on 12 November 2026. The [event organizer](https://sinceai.ai/hackathon) confirms the event and challenge partner. The candidate supplied the team repository to verify the project name, IFIC Guard. The site does not link the repository or claim individual ownership.
+
 - The user supplied a two-page CV privately. It supports the education, internship, projects, languages, and manuscript descriptions. The original PDF and phone number are intentionally excluded from this project.
 - [Public GitHub profile](https://github.com/Vlad-Alexandru03).
 - [Edge-fog data reduction repository](https://github.com/Vlad-Alexandru03/edge-fog-data-reduction): its README describes a MATLAB pipeline that clusters paired temperature/humidity readings, classifies samples, and encodes labels with Run-Length and Huffman encoding. It documents an entry script, compressed dataset, and second-sensor check. No experimental improvement percentages have been added to the site.
